@@ -25,16 +25,20 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveSubsystem m_drive = new DriveSubsystem();
+  private final Intake m_intake = new Intake();
   private final Joystick m_driveStick = new Joystick(0);
   private final ConsoleJoystick m_console = new ConsoleJoystick(1);
 
   private final Command m_autoCommand = new AutoControl(m_console, m_drive);
-
+  private final Climb m_climb = new Climb();
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    
+    m_intake.ArmUp();
+
+
     m_drive.setDefaultCommand(
       new ArcadeDrive(
         m_drive,
@@ -73,4 +77,3 @@ public class RobotContainer {
     return m_autoCommand;
   }
 }
-

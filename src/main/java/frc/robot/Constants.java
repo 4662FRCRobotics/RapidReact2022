@@ -65,4 +65,50 @@ public final class Constants {
          */
     }
 
+    public static final class ShooterConstants {
+        public static final int kSHOOTER_MOTOR0_PORT = 9;
+        public static final int kSHOOTER_MOTOR1_PORT = 10;
+
+        public static final int kSHOOTER_LIMIT_AMPS = 40;
+        public static final double kSHOOTER_RAMP_SEC = 0.5;
+
+        public static final double kSHOOTER_MAX_VOLTS = 9;
+        public static final double kSHOOTER_MIN_VOLTS = 5;
+        public static final double kSHOOTER_RANGE = kSHOOTER_MAX_VOLTS - kSHOOTER_MIN_VOLTS;
+        // check the Launcher Wheel Variables spreadsheet to see what these numbers do
+        // low offset is for formula 1
+       // public static final double kSHOOTER_LOW_OFFSET = 0.90;
+        // constants for formula 2 
+        //public static final double kUPPER_WHEEL_K2 = 14;
+        //public static final double kUPPER_WHEEL_K1 = 6;
+        // contstans for formula 3
+        //public static final double kUPPER_WHEEL_K3 = 3;
+        //public static final double kUPPER_WHEEL_K4 = 1;
+
+        public static final int kSHOOTER_DIRECTION = -1;
+    }
+    public static final class VisionConstants {
+        public static final int VISION_SAMPLE_COUNT = 5;
+    }
+    public static final class IntakeConstants{
+        public static final int kBELT_MOTOR_PORT = 11;
+        public static final double kBELT_MOTOR_SPEED = -0.25;   //was 3 9/26/2021
+        public static final int kINTAKE_DOWN = 2;
+        public static final int kINTAKE_UP = 3;
+    } 
+
+    public static final class ClimbConstants{
+        public static final int kCLIMBER_FWD_PORT = 7;
+        public static final int kCLIMBER_INV_PORT = 12;
+        public static final int kCLIMBER_BRAKE_PORT = 1;
+        public static final double kCLIMB_SPEED = 0.8;
+        public static final double kCLIMB_UP_DIRECTION = 1;
+        public static final double kCLIMB_UP_SPEED = kCLIMB_SPEED * kCLIMB_UP_DIRECTION;
+        public static final double kCLIMB_DOWN_SPEED = kCLIMB_SPEED * -kCLIMB_UP_DIRECTION;
+        public static final double kCLIMB_STOP = 0;
+        public static final double kCLIMB_BRAKE_CLOSE_ANGLE = 1;
+        public static final double kCLIMB_BRAKE_OPEN_ANGLE = 0;
+        public static final double kRAMP_RATE = 1.0;
+    }
+
 }
