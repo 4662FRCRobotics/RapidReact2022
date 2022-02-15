@@ -31,13 +31,14 @@ public final class Constants {
 
         public static final double kRAMP_RATE = 1.0;
         public static final int kCURRENT_LIMT = 40;
-
-        public static final double kGEARBOX_REDUCTION = (50.0 / 12.0) * (60.0 / 14.0);
-        public static final double kTIRE_SIZE_IN = 7.9;
+        public static final double kLOW_GEAR_REDUCTION = (42.0 / 12.0) * (60.0 / 14.0);
+        public static final double kHIGH_GEAR_REDUCTION = (42.0 / 12.0) * (50.0 / 24.0);
+        public static final double kTIRE_SIZE_IN = 6.0;
         public static final double kTIRE_SIZE_M = Units.inchesToMeters(kTIRE_SIZE_IN);
         public static final int kPULSE_PER_ROTATION = 1;
-        public static final double kENCODER_DISTANCE_PER_PULSE_M = ((double) kPULSE_PER_ROTATION / kGEARBOX_REDUCTION)
-                * (kTIRE_SIZE_M * Math.PI);
+        public static final double kENCODER_DISTANCE_PER_PULSE_M_HIGH = ((double) kPULSE_PER_ROTATION / kHIGH_GEAR_REDUCTION);
+        public static final double kENCODER_DISTANCE_PER_PULSE_M_LOW = ((double) kPULSE_PER_ROTATION / kLOW_GEAR_REDUCTION);
+              //  * (kTIRE_SIZE_M * Math.PI);
         public static final double kTRACK_WIDTH_M = 0.64;
 
         // public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new

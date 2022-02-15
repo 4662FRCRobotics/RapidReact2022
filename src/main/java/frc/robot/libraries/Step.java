@@ -11,6 +11,16 @@ public class Step {
         m_enabled = enabled;
     }
 
+    public Step(String name) {
+        this(name, () -> true);
+    }
+
+/*public Step(String name, String refName) {
+    this(name, refName.getBoolenSupplier);
+}*/
+
+
+
     public boolean isTrue() {
         return this.m_enabled.getAsBoolean(); 
     }

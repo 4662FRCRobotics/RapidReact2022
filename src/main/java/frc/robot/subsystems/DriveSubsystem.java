@@ -50,10 +50,10 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_dDistance;
   private double m_leftEncoderSign;
   private double m_rightEncoderSign;
+  private double m_currentEncoderDistancePerPulse;
   private double m_headingSign;
   private boolean m_bInHighGear;
   private DoubleSolenoid m_gearShifter;
-  
 
   public PIDController m_turnPIDController;
   private double m_dAngle;
@@ -88,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_leftEncoder1 = m_leftController1.getEncoder();
     m_rightEncoder1 = m_rightController1.getEncoder();
-
+    m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
     /*
      * m_leftControllerGroup= new SpeedControllerGroup(m_leftController1,
      * m_leftController2);
@@ -115,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_rightEncoderSign = 1;
       m_headingSign = -1;
     }
-m_bInHighGear = false;
+    m_bInHighGear = false;
 
     m_dDriveDistanceP = DriveConstants.kDRIVE_P;
     m_dDriveDistanceI = DriveConstants.kDRIVE_I;
@@ -138,7 +138,8 @@ m_bInHighGear = false;
 
     getDashboardTurn();
 
-    m_gearShifter = new DoubleSolenoid(Common.kPCM_PORT, PneumaticsModuleType.CTREPCM ,DriveConstants.kSHIFT_DOWN, DriveConstants.kSHIFT_UP);
+    m_gearShifter = new DoubleSolenoid(Common.kPCM_PORT, PneumaticsModuleType.CTREPCM, DriveConstants.kSHIFT_DOWN,
+        DriveConstants.kSHIFT_UP);
   }
 
   @Override
@@ -160,14 +161,18 @@ m_bInHighGear = false;
   public void throttledArcadeDrive(double velocity, double heading, double throttle) {
     if (throttle < 0) {
       m_bInHighGear = true;
-velocity = velocity * ((1.0 - throttle) / 2.0);
-//velocity = velocity * (1.0 / (throttle + 1.0));
+      velocity = velocity * ((1.0 - throttle) / 2.0);
+      heading = heading * (-(1.0 / (throttle - 1.0)));
+      // velocity = velocity * (1.0 / (throttle + 1.0));
+      m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
+
     } else {
       m_bInHighGear = false;
-      //velocity = velocity * ((1.0 - throttle) / 2.0);
+      // velocity = velocity * ((1.0 - throttle) / 2.0);
       velocity = velocity * (1.0 / (throttle + 1.0));
+      m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
     }
-SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
+    SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
     arcadeDrive(velocity, heading);
   }
 
@@ -177,11 +182,11 @@ SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
   }
 
   private double getLeftDistance() {
-    return m_leftEncoderSign * m_leftEncoder1.getPosition() * DriveConstants.kENCODER_DISTANCE_PER_PULSE_M;
+    return m_leftEncoderSign * m_leftEncoder1.getPosition() * m_currentEncoderDistancePerPulse;
   }
 
   private double getRightDistance() {
-    return m_rightEncoderSign * m_rightEncoder1.getPosition() * DriveConstants.kENCODER_DISTANCE_PER_PULSE_M;
+    return m_rightEncoderSign * m_rightEncoder1.getPosition() * m_currentEncoderDistancePerPulse;
   }
 
   public double getYaw() {
@@ -223,11 +228,19 @@ SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
   }
 
   public void initDriveController(double distance) {
-    double encoderDistance = distance / DriveConstants.kENCODER_DISTANCE_PER_PULSE_M;
+    if (m_bInHighGear) {
+      double encoderDistance = distance / DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
+      m_drivePIDController.setSetpoint(encoderDistance);
+      resetEncoders();
+      m_drivePIDController.reset();
+      SmartDashboard.putNumber("EncoderDistance", encoderDistance);
+    }else{
+      double encoderDistance = distance / DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
     m_drivePIDController.setSetpoint(encoderDistance);
     resetEncoders();
     m_drivePIDController.reset();
     SmartDashboard.putNumber("EncoderDistance", encoderDistance);
+    }
   }
 
   public void execDriveController() {
@@ -290,7 +303,7 @@ SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
 
   public void setShiftHigh() {
     m_gearShifter.set(Value.kForward);
-    
+
   }
 
   public void setShiftLow() {
@@ -300,6 +313,5 @@ SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
   public boolean isHighGear() {
     return m_bInHighGear;
   }
-  
 
 }
