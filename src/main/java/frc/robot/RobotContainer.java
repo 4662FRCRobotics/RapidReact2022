@@ -24,13 +24,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Climb m_climb = new Climb();
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
+  private final Vision m_vision = new Vision();
+  private final Hopper m_hopper = new Hopper();
   private final Joystick m_driveStick = new Joystick(0);
   private final ConsoleJoystick m_console = new ConsoleJoystick(1);
 
-  private final Command m_autoCommand = new AutoControl(m_console, m_drive);
-  private final Climb m_climb = new Climb();
+  private final Command m_autoCommand = new AutoControl(m_console, m_hopper, m_drive, m_climb, m_intake, m_shooter, m_vision);
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

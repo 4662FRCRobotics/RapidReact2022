@@ -12,19 +12,25 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.libraries.AutonomousCommands;
 import frc.robot.libraries.ConsoleJoystick;
 import frc.robot.libraries.Step;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.libraries.AutoStepCommand;
 
 public class AutoControl extends CommandBase {
     AutonomousCommands m_autoStepCommand;
     ConsoleJoystick m_console;
     DriveSubsystem m_drive;
-    /*
-     * Hopper m_hopper;
-     * Intake m_intake;
-     * Shooter m_shooter;
-     * Vision m_vision;
-     */
+    
+     Hopper m_hopper;
+     Intake m_intake;
+     Shooter m_shooter;
+     Vision m_vision;
+     Climb m_climb;
+     
     WaitForCount m_wait;
 
     int m_positionSwitch;
@@ -38,10 +44,17 @@ public class AutoControl extends CommandBase {
             new Step(AutoStepCommand.WAITLOOP.name(), () -> true), new Step(AutoStepCommand.DRIVE1.name(), () -> true)
     };
 
-    public AutoControl(ConsoleJoystick console, DriveSubsystem drive) {
+    public AutoControl(ConsoleJoystick console, Hopper hopper, DriveSubsystem drive, Climb climb, Intake intake, Shooter shooter, Vision vision) {
         m_console = console;
         m_drive = drive;
-        addRequirements(m_drive);
+        m_hopper = hopper;
+        m_shooter = shooter;
+        m_intake = intake;
+        m_climb = climb;
+        m_vision = vision; 
+        
+
+        addRequirements(m_drive, m_hopper, m_shooter, m_intake, m_climb, m_vision);
 
         m_autoStepCommand = new AutonomousCommands();
 
@@ -62,6 +75,7 @@ public class AutoControl extends CommandBase {
     public void initialize() {
         // getInstance();
         if (DriverStation.isEnabled()) {
+            m_drive.setShiftLow();
             m_waitCount = 0;
             m_stepIndex = -1;
             m_currentStepName = getNextActiveCommand();

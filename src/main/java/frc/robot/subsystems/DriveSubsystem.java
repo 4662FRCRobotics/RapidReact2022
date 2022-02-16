@@ -28,7 +28,6 @@ import frc.robot.Constants.Common;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-  /** Creates a new DriveSubsystem. */
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
   private CANSparkMax m_rightController1;
@@ -163,17 +162,28 @@ public class DriveSubsystem extends SubsystemBase {
       m_bInHighGear = true;
       velocity = velocity * ((1.0 - throttle) / 2.0);
       heading = heading * (-(1.0 / (throttle - 1.0)));
-      // velocity = velocity * (1.0 / (throttle + 1.0));
-      m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
 
     } else {
       m_bInHighGear = false;
-      // velocity = velocity * ((1.0 - throttle) / 2.0);
       velocity = velocity * (1.0 / (throttle + 1.0));
-      m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
     }
     SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
     arcadeDrive(velocity, heading);
+  }
+
+  public void setShiftHigh() {
+    m_gearShifter.set(Value.kForward);
+    m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
+
+  }
+
+  public void setShiftLow() {
+    m_gearShifter.set(Value.kReverse);
+    m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
+  }
+
+  public boolean isHighGear() {
+    return m_bInHighGear;
   }
 
   public double getDistance() {
@@ -299,19 +309,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public boolean isTurnAtSetpoint() {
     return m_turnPIDController.atSetpoint();
-  }
-
-  public void setShiftHigh() {
-    m_gearShifter.set(Value.kForward);
-
-  }
-
-  public void setShiftLow() {
-    m_gearShifter.set(Value.kReverse);
-  }
-
-  public boolean isHighGear() {
-    return m_bInHighGear;
   }
 
 }
