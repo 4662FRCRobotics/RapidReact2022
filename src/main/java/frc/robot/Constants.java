@@ -101,6 +101,23 @@ public final class Constants {
         public static final int kINTAKE_DOWN = 2;
         public static final int kINTAKE_UP = 3;
     }
+    
+    public static final class ButtonMappings {
+
+        // joystick buttons
+        public static final int kSHOOTER = 1;
+        public static final int kLOADER = 2;
+        public static final int kCLOSELOADER = 3;
+        public static final int kLOADERSPIT = 5;
+        public static final int kCLIMB_UP = 6;
+        public static final int kCLIMB_DOWN = 4;
+        public static final int kVISION_ON = 8;
+        public static final int kVISION_DOWN = 7;
+        public static final int kHARVESTER_REVERSE = 10;
+
+        // console buttons
+        public static final int kCLIMB_SWITCH = 1;
+    }
 
     public static final class ClimbConstants {
         public static final int kCLIMBER_FWD_PORT = 7;
@@ -116,15 +133,16 @@ public final class Constants {
         public static final double kRAMP_RATE = 1.0;
     }
     public static final class HopperConstants {
-        public static final int kHOPPER_MOTOR_PORT = 8
+        public static final int kHOPPER_MOTOR_PORT = 8;
         //public static final int kSHOOTER_SENSOR_PORT = 0
         //public static final int kINTAKE_SENSOR_PORT = 1;
         public static final double kHOPPER_SPEED = 0.55;
-        public static final double kHOPPER_INTAKE_SPEED;
-        public static final double kHOPPER_LAUNCH_SPEED;
+        public static final double kHOPPER_INTAKE_SPEED = 0;
+        public static final double kHOPPER_LAUNCH_SPEED = 0;
         public static final double kHOPPER_ZERO_SPEED = 0;
         public static final double kDISTANCE_THRESHOLD = 10.0;
         
+
         //^ Numbers above are placeholders, not final by any means
     }
 }
