@@ -13,6 +13,7 @@ import frc.robot.commands.*;
 import frc.robot.libraries.ConsoleJoystick;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -85,8 +86,20 @@ public class RobotContainer {
         () -> m_console.getRawButton(ButtonMappings.kCLIMB_SWITCH))
       );
 
-      new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DOWN).whileHeld(
+      new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DEPLOY).whileHeld(
       new ClimbDeploy(m_climb));
+     
+      new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DEPLOY)
+      .whileHeld(
+        new ConditionalCommand(
+          new ClimbLift(m_climb),
+          new InstantCommand(),
+          () -> m_console.getRawButton(ButtonMappings.kCLIMB_SWITCH))
+        );
+  
+        new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DEPLOY).whileHeld(
+        new ClimbDeploy(m_climb));
+  
 
       new  JoystickButton(m_driveStick, ButtonMappings.kLOADER)
       .whileHeld(

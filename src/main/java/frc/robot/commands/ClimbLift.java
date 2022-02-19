@@ -12,13 +12,16 @@ public class ClimbLift extends CommandBase {
   /** Creates a new ClimbShoot. */
   public ClimbLift(Climb climb) {
     m_climb = climb;
-
+    addRequirements(m_climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climb.climbBrakeRelease();
+    m_climb.climbUp();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -26,7 +29,10 @@ public class ClimbLift extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_climb.climbStop();
+    m_climb.climbBrakeSet();
+  }
 
   // Returns true when the command should end.
   @Override

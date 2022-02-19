@@ -110,7 +110,7 @@ public final class Constants {
         public static final int kCLOSELOADER = 3;
         public static final int kLOADERSPIT = 5;
         public static final int kCLIMB_UP = 6;
-        public static final int kCLIMB_DOWN = 4;
+        public static final int kCLIMB_DEPLOY = 4;
         public static final int kVISION_ON = 8;
         public static final int kVISION_DOWN = 7;
         public static final int kHARVESTER_REVERSE = 10;
@@ -126,7 +126,7 @@ public final class Constants {
         public static final double kCLIMB_SPEED = 0.8;
         public static final double kCLIMB_UP_DIRECTION = 1;
         public static final double kCLIMB_UP_SPEED = kCLIMB_SPEED * kCLIMB_UP_DIRECTION;
-        public static final double kCLIMB_DOWN_SPEED = kCLIMB_SPEED * -kCLIMB_UP_DIRECTION;
+        public static final double kCLIMB_DEPLOY_SPEED = kCLIMB_SPEED * -kCLIMB_UP_DIRECTION;
         public static final double kCLIMB_STOP = 0;
         public static final double kCLIMB_BRAKE_CLOSE_ANGLE = 1;
         public static final double kCLIMB_BRAKE_OPEN_ANGLE = 0;

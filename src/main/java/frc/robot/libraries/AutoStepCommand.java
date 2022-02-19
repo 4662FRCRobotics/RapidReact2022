@@ -6,7 +6,7 @@ package frc.robot.libraries;
 
 /** Add your docs here. */
 public enum AutoStepCommand {
-    
+    DEPLOY_INTAKE,
     DRIVE1,
     DRIVE2,
     DRIVE3,

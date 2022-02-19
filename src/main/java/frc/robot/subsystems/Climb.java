@@ -59,7 +59,7 @@ public class Climb extends SubsystemBase {
   }
 
   public void climbDown(){
-    setClimbMotor(ClimbConstants.kCLIMB_DOWN_SPEED);
+    setClimbMotor(ClimbConstants.kCLIMB_DEPLOY_SPEED);
   }
 
   public void climbStop(){

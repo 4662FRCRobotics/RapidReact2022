@@ -14,6 +14,7 @@ private Hopper m_hopper;
   public ShootHopperFeed(Hopper hopper) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_hopper = hopper;
+    addRequirements(m_hopper);
   }
 
   // Called when the command is initially scheduled.

@@ -24,13 +24,13 @@ public class AutoControl extends CommandBase {
     AutonomousCommands m_autoStepCommand;
     ConsoleJoystick m_console;
     DriveSubsystem m_drive;
-    
-     Hopper m_hopper;
-     Intake m_intake;
-     Shooter m_shooter;
-     Vision m_vision;
-     Climb m_climb;
-     
+
+    Hopper m_hopper;
+    Intake m_intake;
+    Shooter m_shooter;
+    Vision m_vision;
+    Climb m_climb;
+
     WaitForCount m_wait;
 
     int m_positionSwitch;
@@ -41,29 +41,37 @@ public class AutoControl extends CommandBase {
 
     int m_stepIndex = 0;
     Step m_step[] = { new Step(AutoStepCommand.DRIVE1.name(), () -> true),
-            new Step(AutoStepCommand.WAITLOOP.name(), () -> true), new Step(AutoStepCommand.DRIVE1.name(), () -> true)
+           new Step(AutoStepCommand.TURNP90.name(), () -> true),
+           new Step(AutoStepCommand.TURNP90.name(), () -> true),
+           new Step(AutoStepCommand.WAITLOOP.name(), () -> true),
+           new Step(AutoStepCommand.DRIVE1.name(), () -> true),
+           new Step(AutoStepCommand.LAUNCH1.name(), () -> true),
+           new Step(AutoStepCommand.END.name(), () -> true)
     };
 
-    public AutoControl(ConsoleJoystick console, Hopper hopper, DriveSubsystem drive, Climb climb, Intake intake, Shooter shooter, Vision vision) {
+    public AutoControl(ConsoleJoystick console, Hopper hopper, DriveSubsystem drive, Climb climb, Intake intake,
+            Shooter shooter, Vision vision) {
         m_console = console;
         m_drive = drive;
         m_hopper = hopper;
         m_shooter = shooter;
         m_intake = intake;
         m_climb = climb;
-        m_vision = vision; 
-        
+        m_vision = vision;
 
         addRequirements(m_drive, m_hopper, m_shooter, m_intake, m_climb, m_vision);
 
         m_autoStepCommand = new AutonomousCommands();
-
+        m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE.name(), new IntakeCargo(hopper, intake));
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(1, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90.name(), new AutoTurnAngle(90.0, m_drive));
-        m_autoStepCommand.addOption(AutoStepCommand.TURNM90.name(), new AutoTurnAngle(-90.0, m_drive));
+        // m_autoStepCommand.addOption(AutoStepCommand.TURNM90.name(), new 
+        // AutoTurnAngle(-90.0, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.WAIT2.name(), new WaitCommand(2));
+        
         m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP.name(),
                 new WaitForCount(1, () -> m_console.getROT_SW_1()));
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1.name(), new BaggageHandlerShoot(m_shooter, () -> .9));
         m_autoStepCommand.addOption(AutoStepCommand.END.name(), new End());
     }
 

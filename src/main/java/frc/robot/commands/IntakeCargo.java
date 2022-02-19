@@ -5,10 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Intake;
 
 public class IntakeCargo extends CommandBase {
-  /** Creates a new IntakeCargo. */
-  public IntakeCargo() {
+
+  Hopper m_hopper;
+  Intake m_intake;
+  //Creates a new IntakeCargo. 
+ //@param m_intake
+ // @param m_hopper*/
+  public IntakeCargo(Hopper hopper, Intake intake) {
+    m_intake = intake;
+    m_hopper = hopper;
+    addRequirements(m_intake, m_hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
