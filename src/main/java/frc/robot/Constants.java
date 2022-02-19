@@ -46,6 +46,7 @@ public final class Constants {
         // public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new
         // DifferentialDriveKinematics(kTRACK_WIDTH_M);
 
+        // shifter numatic ports
         public static final int kSHIFT_UP = 1;
         public static final int kSHIFT_DOWN = 0;
 
@@ -107,8 +108,8 @@ public final class Constants {
         // joystick buttons
         public static final int kSHOOTER = 1;
         public static final int kLOADER = 2;
-        public static final int kCLOSELOADER = 3;
-        public static final int kLOADERSPIT = 5;
+        public static final int kRETRACT_INTAKE = 3;
+        public static final int kLOADER_SPIT = 5;
         public static final int kCLIMB_UP = 6;
         public static final int kCLIMB_DEPLOY = 4;
         public static final int kVISION_ON = 8;

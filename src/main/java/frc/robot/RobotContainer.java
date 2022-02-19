@@ -110,6 +110,10 @@ public class RobotContainer {
     .whenActive(new InstantCommand(m_drive::setShiftHigh, m_drive))
     .whenInactive(new InstantCommand(m_drive::setShiftLow, m_drive)); 
 
+      new JoystickButton(m_driveStick, ButtonMappings.kRETRACT_INTAKE).whenPressed(
+      new RetractIntake(m_intake)
+    );
+
   }
 
 

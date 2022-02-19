@@ -16,7 +16,7 @@ public class BaggageHandlerShoot extends CommandBase {
   private Shooter m_shooter;
 
   public BaggageHandlerShoot(Shooter shooter, DoubleSupplier shootThrottle) {
-      Shooter m_shooter = shooter;
+      m_shooter = shooter;
       m_shootThrottle = shootThrottle;
 
 
@@ -33,11 +33,13 @@ public class BaggageHandlerShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooter.setMotorOn(m_shootThrottle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooter.setMotorOff();
   }
 
   // Returns true when the command should end.

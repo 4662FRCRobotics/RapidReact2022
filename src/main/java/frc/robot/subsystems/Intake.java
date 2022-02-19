@@ -39,11 +39,11 @@ public class Intake extends SubsystemBase {
     //SmartDashboard.putBoolean("Feeder Belt", true);
   }
 
-  public void beltRev() {
+  public void IntakeRev() {
     m_IntakeMotor.set(-IntakeConstants.kBELT_MOTOR_SPEED);
   }
 
-  public void beltOff(){
+  public void IntakeOff(){
     m_IntakeMotor.stopMotor();
     //SmartDashboard.putBoolean("Feeder Belt", false);
   }
