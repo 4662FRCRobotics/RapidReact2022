@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Drive;
 
 public class AutoDriveDistance extends CommandBase {
 
   private double m_dDistance;
   private boolean m_bIsDashboard;
-  private DriveSubsystem m_drive;
+  private Drive m_drive;
   
   /** Creates a new AutoDriveDistance. */
-  public AutoDriveDistance(double distance, DriveSubsystem drive) {
+  public AutoDriveDistance(double distance, Drive drive) {
     m_drive = drive; 
     m_dDistance = distance;
     m_bIsDashboard = false;
@@ -22,7 +22,7 @@ public class AutoDriveDistance extends CommandBase {
     addRequirements(m_drive);
   }
 
-  public AutoDriveDistance(DriveSubsystem drive) {
+  public AutoDriveDistance(Drive drive) {
     m_drive = drive;
     m_dDistance = m_drive.getDashboardDistance();
     //m_dRotation = 0;

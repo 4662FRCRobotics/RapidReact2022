@@ -13,7 +13,7 @@ import frc.robot.libraries.AutonomousCommands;
 import frc.robot.libraries.ConsoleJoystick;
 import frc.robot.libraries.Step;
 import frc.robot.subsystems.Climb;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -23,7 +23,7 @@ import frc.robot.libraries.AutoStepCommand;
 public class AutoControl extends CommandBase {
     AutonomousCommands m_autoStepCommand;
     ConsoleJoystick m_console;
-    DriveSubsystem m_drive;
+    Drive m_drive;
 
     Hopper m_hopper;
     Intake m_intake;
@@ -40,16 +40,16 @@ public class AutoControl extends CommandBase {
     int m_waitCount;
 
     int m_stepIndex = 0;
-    Step m_step[] = { new Step(AutoStepCommand.DRIVE1.name(), () -> true),
-           new Step(AutoStepCommand.TURNP90.name(), () -> true),
-           new Step(AutoStepCommand.TURNP90.name(), () -> true),
+    Step m_step[] = { new Step(AutoStepCommand.DRIVE1.name()),
+           new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
+           new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
            new Step(AutoStepCommand.WAITLOOP.name(), () -> true),
-           new Step(AutoStepCommand.DRIVE1.name(), () -> true),
-           new Step(AutoStepCommand.LAUNCH1.name(), () -> true),
+           new Step(AutoStepCommand.DRIVE1.name(), () -> m_console.cnsl_btn_3.get()),
+           new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_4.get()),
            new Step(AutoStepCommand.END.name(), () -> true)
     };
 
-    public AutoControl(ConsoleJoystick console, Hopper hopper, DriveSubsystem drive, Climb climb, Intake intake,
+    public AutoControl(ConsoleJoystick console, Hopper hopper, Drive drive, Climb climb, Intake intake,
             Shooter shooter, Vision vision) {
         m_console = console;
         m_drive = drive;

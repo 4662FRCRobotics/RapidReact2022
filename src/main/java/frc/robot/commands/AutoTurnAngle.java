@@ -7,21 +7,21 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Drive;
 
 public class AutoTurnAngle extends CommandBase {
   /** Creates a new AutoTurn2. */
-  DriveSubsystem m_drive;
+  Drive m_drive;
   DoubleSupplier m_targetAngle;
 
-  public AutoTurnAngle(DoubleSupplier targetAngle, DriveSubsystem drive) {
+  public AutoTurnAngle(DoubleSupplier targetAngle, Drive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drive = drive;
     m_targetAngle = targetAngle;
     addRequirements(m_drive);
   }
 
-  public AutoTurnAngle(Double targetAngle, DriveSubsystem drive) {
+  public AutoTurnAngle(Double targetAngle, Drive drive) {
     this(() -> targetAngle, drive);
   }
 

@@ -27,7 +27,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.Common;
 import frc.robot.Constants.DriveConstants;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Drive extends SubsystemBase {
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
   private CANSparkMax m_rightController1;
@@ -58,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_dAngle;
   private double m_dStartAngle;
 
-  public DriveSubsystem() {
+  public Drive() {
 
     m_leftController1 = new CANSparkMax(DriveConstants.kLeftMotor1Port, MotorType.kBrushless);
     m_leftController2 = new CANSparkMax(DriveConstants.kLeftMotor2Port, MotorType.kBrushless);

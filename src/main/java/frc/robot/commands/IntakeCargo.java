@@ -19,10 +19,10 @@ public class IntakeCargo extends CommandBase {
     m_intake = intake;
     m_hopper = hopper;
     addRequirements(m_intake, m_hopper);
-    // Use addRequirements() here to declare subsystem dependencies.
+  
   }
 
-  // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {
     m_intake.ArmDown();
@@ -39,7 +39,6 @@ public class IntakeCargo extends CommandBase {
     m_intake.IntakeOff();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

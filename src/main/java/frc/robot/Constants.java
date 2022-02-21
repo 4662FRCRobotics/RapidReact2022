@@ -135,6 +135,7 @@ public final class Constants {
     }
     public static final class HopperConstants {
         public static final int kHOPPER_MOTOR_PORT = 8;
+        public static final int kHOPPER_MOTOR2_PORT = 13;
         //public static final int kSHOOTER_SENSOR_PORT = 0
         //public static final int kINTAKE_SENSOR_PORT = 1;
         public static final double kHOPPER_SPEED = 0.55;

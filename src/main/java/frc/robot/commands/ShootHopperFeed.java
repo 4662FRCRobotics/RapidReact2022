@@ -4,12 +4,14 @@
 
 package frc.robot.commands;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper;
 
 public class ShootHopperFeed extends CommandBase {
-  /** Creates a new ShootHopperFeed. */
-private Hopper m_hopper;
+
+  private Hopper m_hopper;
 
   public ShootHopperFeed(Hopper hopper) {
     // Use addRequirements() here to declare subsystem dependencies.

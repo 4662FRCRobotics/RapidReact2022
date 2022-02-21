@@ -8,6 +8,10 @@ public class ConsoleJoystick extends Joystick {
 
     public Button cnsl_btn_1 = new JoystickButton(this, 1);
 
+    public Button cnsl_btn_2 = new JoystickButton(this, 2);
+    public Button cnsl_btn_3 = new JoystickButton(this, 3);
+    public Button cnsl_btn_4 = new JoystickButton(this, 4);
+
     private static final int kAXIS_X = 0;
     private static final int kAXIS_THROTTLE = 4;
     private static final int kAXIS_Y = 1;
