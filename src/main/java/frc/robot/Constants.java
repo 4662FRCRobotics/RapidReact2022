@@ -139,8 +139,8 @@ public final class Constants {
         //public static final int kSHOOTER_SENSOR_PORT = 0
         //public static final int kINTAKE_SENSOR_PORT = 1;
         public static final double kHOPPER_SPEED = 0.55;
-        public static final double kHOPPER_INTAKE_SPEED = 0;
-        public static final double kHOPPER_LAUNCH_SPEED = 0;
+        public static final double kHOPPER_INTAKE_SPEED = 0.75;
+        public static final double kHOPPER_LAUNCH_SPEED = 0.5;
         public static final double kHOPPER_ZERO_SPEED = 0;
         public static final double kDISTANCE_THRESHOLD = 10.0;
         

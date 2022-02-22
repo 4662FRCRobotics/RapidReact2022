@@ -27,6 +27,21 @@ public class Hopper extends SubsystemBase {
  
   }
 
+  public void IntakeOn() {
+    m_wheelmotor.set(HopperConstants.kHOPPER_INTAKE_SPEED);
+  }
+
+public void IntakeOff() {
+  m_wheelmotor.stopMotor();
+}
+public void ShooterFeed() {
+  m_beltmotor.set(HopperConstants.kHOPPER_LAUNCH_SPEED);
+  m_wheelmotor.set(HopperConstants.kHOPPER_LAUNCH_SPEED);
+}
+public void ShooterOff() {
+  m_beltmotor.stopMotor();
+  m_wheelmotor.stopMotor();
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
