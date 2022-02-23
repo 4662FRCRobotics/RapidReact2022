@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -70,13 +71,25 @@ public class RobotContainer {
     SmartDashboard.putData("AutoTurn", new AutoTurnAngle(()-> m_drive.getDashboardTurn(),m_drive));
     
     new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER)
+    .whenHeld(
+      new SequentialCommandGroup(
+        new ParallelRaceGroup( 
+            new WaitCommand(3),
+            new FindHub(m_vision)),
+        new AutoTurnAngle(() -> m_vision.getYaw(), m_drive),
+        new ParallelCommandGroup(
+          new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
+         new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper))
+        )
+            ));
+            
+    new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER_ALTERNATE)
     .whileHeld(
       new ParallelCommandGroup(
         new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
        new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper))
       )
     );
-
 
     new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_UP)
     .whileHeld(
