@@ -19,7 +19,7 @@ public class ClimbLift extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climb.climbBrakeRelease();
+ 
     m_climb.climbUp();
   }
 
@@ -31,7 +31,7 @@ public class ClimbLift extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_climb.climbStop();
-    m_climb.climbBrakeSet();
+
   }
 
   // Returns true when the command should end.

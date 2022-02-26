@@ -109,9 +109,9 @@ public final class Constants {
         public static final int kSHOOTER = 1;
         public static final int kLOADER = 2;
         public static final int kRETRACT_INTAKE = 3;
-        public static final int kCLIMB_DEPLOY = 4;
+        public static final int kCLIMB_DEPLOY = 6;
         public static final int kLOADER_SPIT = 5;
-        public static final int kCLIMB_UP = 6;
+        public static final int kCLIMB_UP = 4;
         public static final int kVISION_DOWN = 7;
         public static final int kVISION_ON = 8;
         public static final int kSHOOTER_ALTERNATE = 9;

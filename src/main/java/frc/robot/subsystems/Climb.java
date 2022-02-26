@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Servo;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
@@ -16,7 +19,11 @@ public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
   private CANSparkMax m_ClimbMotorFwd;
   private CANSparkMax m_ClimbMotorInv;
-  private Servo m_climbBrake;
+
+ private SparkMaxLimitSwitch m_fwdFwdLimit;
+ private SparkMaxLimitSwitch m_fwdRevLimit;
+ private SparkMaxLimitSwitch m_invFwdLimit;
+ private SparkMaxLimitSwitch m_invRevLimit;
 
   private boolean m_bIsClimbBrakeSet;
 
@@ -35,22 +42,27 @@ public class Climb extends SubsystemBase {
     m_ClimbMotorFwd.setOpenLoopRampRate(ClimbConstants.kRAMP_RATE);
     m_ClimbMotorInv.setOpenLoopRampRate(ClimbConstants.kRAMP_RATE);
 
-    // m_ClimbMotorFwd.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
-    // LimitSwitchNormal.NormallyOpen, 0);
-    // m_ClimbMotorFwd.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
-    // LimitSwitchNormal.NormallyOpen, 0);
+m_fwdFwdLimit = m_ClimbMotorFwd.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+m_fwdRevLimit = m_ClimbMotorFwd.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+m_invFwdLimit = m_ClimbMotorFwd.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+m_invRevLimit = m_ClimbMotorFwd.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
 
-    m_ClimbMotorInv.follow(m_ClimbMotorFwd);
+m_fwdRevLimit.enableLimitSwitch(true);
+m_fwdFwdLimit.enableLimitSwitch(true);
+m_invRevLimit.enableLimitSwitch(true);
+m_invFwdLimit.enableLimitSwitch(true);
+   // m_ClimbMotorInv.follow(m_ClimbMotorFwd);
 
     m_ClimbMotorFwd.setInverted(false);
     m_ClimbMotorInv.setInverted(true);
     // flashes same color as master but reverses output as advertised
-    m_climbBrake = new Servo(ClimbConstants.kCLIMBER_BRAKE_PORT);
+ 
   }
 
   private void setClimbMotor(double climbSpeed) {
     SmartDashboard.putNumber("Climb Speed", climbSpeed);
     m_ClimbMotorFwd.set(climbSpeed);
+    m_ClimbMotorInv.set(climbSpeed);
     // Display the speed of the Climb motors on SmartDashboard.
   }
   
@@ -66,16 +78,8 @@ public class Climb extends SubsystemBase {
     setClimbMotor(ClimbConstants.kCLIMB_STOP);
   }
 
-  public void climbBrakeSet(){
-    m_climbBrake.setPosition(ClimbConstants.kCLIMB_BRAKE_CLOSE_ANGLE);
-  }
-
-  public void climbBrakeRelease(){
-    m_climbBrake.setPosition(ClimbConstants.kCLIMB_BRAKE_OPEN_ANGLE);
-  }
-
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+   SmartDashboard.putBoolean("invt limit", m_invFwdLimit.isPressed());
   }
 }
