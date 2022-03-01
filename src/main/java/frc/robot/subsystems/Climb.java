@@ -47,11 +47,11 @@ m_fwdRevLimit = m_ClimbMotorFwd.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.k
 m_invFwdLimit = m_ClimbMotorFwd.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
 m_invRevLimit = m_ClimbMotorFwd.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
 
-m_fwdRevLimit.enableLimitSwitch(true);
 m_fwdFwdLimit.enableLimitSwitch(true);
-m_invRevLimit.enableLimitSwitch(true);
+m_fwdRevLimit.enableLimitSwitch(true);
 m_invFwdLimit.enableLimitSwitch(true);
-   // m_ClimbMotorInv.follow(m_ClimbMotorFwd);
+m_invRevLimit.enableLimitSwitch(true);
+  // m_ClimbMotorInv.follow(m_ClimbMotorFwd);
 
     m_ClimbMotorFwd.setInverted(false);
     m_ClimbMotorInv.setInverted(true);
@@ -80,6 +80,6 @@ m_invFwdLimit.enableLimitSwitch(true);
 
   @Override
   public void periodic() {
-   SmartDashboard.putBoolean("invt limit", m_invFwdLimit.isPressed());
+  SmartDashboard.putBoolean("invt limit", m_invFwdLimit.isPressed());
   }
 }
