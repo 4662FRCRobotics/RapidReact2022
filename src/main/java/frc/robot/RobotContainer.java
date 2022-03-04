@@ -79,10 +79,10 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new ParallelRaceGroup(
                     new WaitCommand(3),
-                    new FindHub(m_vision)),
-                new AutoTurnAngle(() -> m_vision.getYaw(), m_drive),
+                  //  new FindHub(m_vision)),
+            //    new AutoTurnAngle(() -> m_vision.getYaw(), m_drive),
                 new ParallelCommandGroup(
-                    new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
+                    new BaggageHandlerShoot(m_shooter, () -> m_console.getZ())),
                     new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper)))));
 
     new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER_ALTERNATE)

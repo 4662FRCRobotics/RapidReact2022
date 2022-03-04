@@ -8,12 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Vision;
 
 public class FindHub extends CommandBase {
+  /*
   Vision m_vision;
-  /** Creates a new FindHub. */
+  
   public FindHub(Vision vision) {
     m_vision = vision; 
     addRequirements(m_vision);
-    // Use addRequirements() here to declare subsystem dependencies.
+   
   }
 
   // Called when the command is initially scheduled.
@@ -39,4 +40,5 @@ public class FindHub extends CommandBase {
   public boolean isFinished() {
     return m_vision.haveTarget();
   }
+  */
 }

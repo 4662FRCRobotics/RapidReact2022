@@ -20,7 +20,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class Vision extends SubsystemBase {
-  /** Creates a new Vision. */
+  /*
   PhotonCamera camera = new PhotonCamera("fwdCamera");
   private double m_dyaw;
   private double m_dpitch;
@@ -88,5 +88,5 @@ public class Vision extends SubsystemBase {
     return m_bhaveTarget;
   }
 
-
+*/
 }
