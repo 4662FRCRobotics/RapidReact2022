@@ -73,7 +73,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     SmartDashboard.putData("AutoDistance", new AutoDriveDistance(m_drive));
     SmartDashboard.putData("AutoTurn", new AutoTurnAngle(() -> m_drive.getDashboardTurn(), m_drive));
-
+/*
     new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER)
         .whenHeld(
             new SequentialCommandGroup(
@@ -84,8 +84,9 @@ public class RobotContainer {
                 new ParallelCommandGroup(
                     new BaggageHandlerShoot(m_shooter, () -> m_console.getZ())),
                     new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper)))));
-
-    new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER_ALTERNATE)
+*/
+    new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER)
+    //new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER_ALTERNATE)
         .whileHeld(
             new ParallelCommandGroup(
                 new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
