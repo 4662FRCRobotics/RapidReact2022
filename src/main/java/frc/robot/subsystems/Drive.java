@@ -157,16 +157,17 @@ public class Drive extends SubsystemBase {
     // System.out.println("heading="+heading);
   }
 
-  public void throttledArcadeDrive(double velocity, double heading, double throttle) {
+  public void throttledArcadeDrive(double velocity, double heading, double throttle, double turnRate) {
     if (throttle < 0) {
       m_bInHighGear = true;
       velocity = velocity * ((1.0 - throttle) / 2.0);
-      heading = heading * (-(1.0 / (throttle - 1.0)));
+      //heading = heading * (-(1.0 / (throttle - 1.0)));
 
     } else {
       m_bInHighGear = false;
       velocity = velocity * (1.0 / (throttle + 1.0));
     }
+    heading = heading * (1- ((turnRate + 1) * 0.25));
     SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
     arcadeDrive(velocity, heading);
   }

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.libraries.AutonomousCommands;
 import frc.robot.libraries.ConsoleJoystick;
@@ -18,6 +19,7 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.libraries.AutoStepCommand;
 
 public class AutoControl extends CommandBase {
@@ -40,6 +42,7 @@ public class AutoControl extends CommandBase {
     int m_waitCount;
 
     int m_stepIndex = 0;
+    /*
     Step m_step[] = { new Step(AutoStepCommand.DRIVE1.name()),
            new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
            new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
@@ -47,6 +50,10 @@ public class AutoControl extends CommandBase {
            new Step(AutoStepCommand.DRIVE1.name(), () -> m_console.cnsl_btn_3.get()),
            new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_4.get()),
            new Step(AutoStepCommand.END.name(), () -> true)
+    };
+        */
+    Step m_step[] = {new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_2.get()),
+                    new Step(AutoStepCommand.DRIVE1.name())
     };
 
     public AutoControl(ConsoleJoystick console, Hopper hopper, Drive drive, Climb climb, Intake intake,
@@ -63,7 +70,7 @@ public class AutoControl extends CommandBase {
 
         m_autoStepCommand = new AutonomousCommands();
         m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE.name(), new IntakeCargo(hopper, intake));
-        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(1, m_drive));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(2.6, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90.name(), new AutoTurnAngle(90.0, m_drive));
         // m_autoStepCommand.addOption(AutoStepCommand.TURNM90.name(), new 
         // AutoTurnAngle(-90.0, m_drive));
@@ -71,7 +78,10 @@ public class AutoControl extends CommandBase {
         
         m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP.name(),
                 new WaitForCount(1, () -> m_console.getROT_SW_1()));
-        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1.name(), new BaggageHandlerShoot(m_shooter, () -> .9));
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1.name(),
+            new ParallelRaceGroup(new WaitCommand(1),
+            new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO))
+        );
         m_autoStepCommand.addOption(AutoStepCommand.END.name(), new End());
     }
 

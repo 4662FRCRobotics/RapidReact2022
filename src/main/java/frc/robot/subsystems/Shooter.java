@@ -24,9 +24,9 @@ public class Shooter extends SubsystemBase {
    */
 
   private WPI_TalonFX m_shooterMotor0;
-  private WPI_TalonFX m_shooterMotor1;
+  //private WPI_TalonFX m_shooterMotor1;
   
-  private boolean m_bIsMotorOn;
+  //private boolean m_bIsMotorOn;
 
   private double m_voltUpper;
   private double m_voltLower;
@@ -44,14 +44,14 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor0.configOpenloopRamp(ShooterConstants.kSHOOTER_RAMP_SEC);
     //m_shooterMotor1.configOpenloopRamp(ShooterConstants.kSHOOTER_RAMP_SEC);
 
-    m_bIsMotorOn = false;
+    //m_bIsMotorOn = false;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("LowVolts", m_voltLower);
-    SmartDashboard.putNumber("UpVolts", m_voltUpper);
+    //SmartDashboard.putNumber("UpVolts", m_voltUpper);
   }  
   
   public void setMotor(double voltLower){
@@ -74,14 +74,14 @@ public class Shooter extends SubsystemBase {
   public void setMotorOn(DoubleSupplier throttle){
     setVoltage(throttle);
     setMotor(m_voltLower);
-    m_bIsMotorOn = true;
+    //m_bIsMotorOn = true;
     //SmartDashboard.putBoolean("Shooter Motor", m_bIsMotorOn);
   }
 
   public void setMotorOff(){
     m_shooterMotor0.stopMotor();
    // m_shooterMotor1.stopMotor();
-    m_bIsMotorOn = false;
+    //m_bIsMotorOn = false;
     //SmartDashboard.putBoolean("Shooter Motor", m_bIsMotorOn);
   }
 }
