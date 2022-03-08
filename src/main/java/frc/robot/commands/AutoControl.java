@@ -70,7 +70,7 @@ public class AutoControl extends CommandBase {
 
         m_autoStepCommand = new AutonomousCommands();
         m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE.name(), new IntakeCargo(hopper, intake));
-        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(2.6, m_drive));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(3.3, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90.name(), new AutoTurnAngle(90.0, m_drive));
         // m_autoStepCommand.addOption(AutoStepCommand.TURNM90.name(), new 
         // AutoTurnAngle(-90.0, m_drive));
