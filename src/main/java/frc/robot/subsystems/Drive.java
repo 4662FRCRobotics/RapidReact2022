@@ -18,6 +18,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -170,6 +171,16 @@ public class Drive extends SubsystemBase {
     heading = heading * (1- ((turnRate + 1) * 0.25));
     SmartDashboard.putBoolean("InHighGear", m_bInHighGear);
     arcadeDrive(velocity, heading);
+  }
+
+  public void driveOverrideArcadeDrive(double velocity, double heading) {
+    m_differentialdrive.arcadeDrive(velocity, -1 * heading);
+if () {
+setShiftHigh();
+}
+if () {
+  setShiftLow();
+}
   }
 
   public void setShiftHigh() {

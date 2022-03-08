@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -92,15 +93,28 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
                 new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper))));
-
-    new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DEPLOY)
+               
+               
+                new POVButton(m_driveStick, 0)
+                .whileHeld(
+                    new ConditionalCommand(
+                        new ClimbDeploy(m_climb),
+                        new InstantCommand(),
+                        () -> m_console.getRawButton(ButtonMappings.kCLIMB_SWITCH)));
+ 
+        /* new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_DEPLOY)
         .whileHeld(
             new ConditionalCommand(
                 new ClimbDeploy(m_climb),
                 new InstantCommand(),
-                () -> m_console.getRawButton(ButtonMappings.kCLIMB_SWITCH)));
+                () -> m_console.getRawButton(ButtonMappings.kCLIMB_SWITCH)));*/
+                
 
-    new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_UP)
+   /* new JoystickButton(m_driveStick, ButtonMappings.kCLIMB_UP)
+    .whileHeld(
+       new ClimbLift(m_climb));*/
+
+    new POVButton(m_driveStick, 180)
     .whileHeld(
         new ClimbLift(m_climb));
 
