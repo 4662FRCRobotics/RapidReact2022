@@ -173,14 +173,9 @@ public class Drive extends SubsystemBase {
     arcadeDrive(velocity, heading);
   }
 
-  public void driveOverrideArcadeDrive(double velocity, double heading) {
-    m_differentialdrive.arcadeDrive(velocity, -1 * heading);
-if () {
-setShiftHigh();
-}
-if () {
-  setShiftLow();
-}
+  public void overRideThrottledArcadeDrive(double velocity, double heading, double turnRate) {
+    heading = heading * (1- ((turnRate + 1) * 0.25));
+    arcadeDrive(velocity, heading);
   }
 
   public void setShiftHigh() {
