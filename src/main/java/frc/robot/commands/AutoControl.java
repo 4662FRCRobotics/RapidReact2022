@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.libraries.AutonomousCommands;
 import frc.robot.libraries.ConsoleJoystick;
@@ -41,19 +42,32 @@ public class AutoControl extends CommandBase {
     Command m_currentCommand;
     int m_waitCount;
 
+    Command m_launch1 = new ParallelRaceGroup(new WaitCommand(1),
+        new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO));
+
+    Command m_launch2 = new ParallelRaceGroup(new WaitCommand(3),
+        new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO),
+        new SequentialCommandGroup(new WaitCommand(0.5), new ShootHopperFeed(m_hopper))
+        );  
+        
+    Command m_waitLoop = new WaitForCount(1, () -> m_console.getROT_SW_1());
+
+    Command m_driveIntake = new ParallelRaceGroup(new AutoDriveDistance(-1.5, m_drive),
+        new IntakeCargo(m_hopper, m_intake));   
+
     int m_stepIndex = 0;
     /*
     Step m_step[] = { new Step(AutoStepCommand.DRIVE1.name()),
-           new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
-           new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
-           new Step(AutoStepCommand.WAITLOOP.name(), () -> true),
-           new Step(AutoStepCommand.DRIVE1.name(), () -> m_console.cnsl_btn_3.get()),
-           new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_4.get()),
-           new Step(AutoStepCommand.END.name(), () -> true)
-    };
-        */
+               new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
+               new Step(AutoStepCommand.TURNP90.name(), () -> m_console.cnsl_btn_2.get()),
+               new Step(AutoStepCommand.WAITLOOP.name(), () -> true),
+               new Step(AutoStepCommand.DRIVE1.name(), () -> m_console.cnsl_btn_3.get()),
+               new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_4.get()),
+               new Step(AutoStepCommand.END.name(), () -> true)
+        };
+    */
     Step m_step[] = {new Step(AutoStepCommand.LAUNCH1.name(), () -> m_console.cnsl_btn_2.get()),
-                    new Step(AutoStepCommand.DRIVE1.name())
+                new Step(AutoStepCommand.DRIVE1.name())
     };
 
     public AutoControl(ConsoleJoystick console, Hopper hopper, Drive drive, Climb climb, Intake intake,
@@ -71,18 +85,17 @@ public class AutoControl extends CommandBase {
         m_autoStepCommand = new AutonomousCommands();
         m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE.name(), new IntakeCargo(hopper, intake));
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE1.name(), new AutoDriveDistance(3.3, m_drive));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE2.name(), new AutoDriveDistance(1.5, m_drive));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE_INTAKE.name(), m_driveIntake);
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90.name(), new AutoTurnAngle(90.0, m_drive));
-        // m_autoStepCommand.addOption(AutoStepCommand.TURNM90.name(), new 
-        // AutoTurnAngle(-90.0, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.WAIT2.name(), new WaitCommand(2));
-        
-        m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP.name(),
-                new WaitForCount(1, () -> m_console.getROT_SW_1()));
-        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1.name(),
-            new ParallelRaceGroup(new WaitCommand(1),
-            new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO))
-        );
+        m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP.name(), m_waitLoop);
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1.name(), m_launch1);
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH2.name(), m_launch2);
         m_autoStepCommand.addOption(AutoStepCommand.END.name(), new End());
+
+        m_stepIndex = 0;
+
     }
 
     private void dashboardCmd(String cmdName) {
