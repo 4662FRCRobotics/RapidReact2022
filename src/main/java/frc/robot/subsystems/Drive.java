@@ -59,6 +59,8 @@ public class Drive extends SubsystemBase {
   private double m_dAngle;
   private double m_dStartAngle;
 
+  private Value m_currShift;
+
   public Drive() {
 
     m_leftController1 = new CANSparkMax(DriveConstants.kLeftMotor1Port, MotorType.kBrushless);
@@ -116,6 +118,7 @@ public class Drive extends SubsystemBase {
       m_headingSign = -1;
     }
     m_bInHighGear = false;
+    
 
     m_dDriveDistanceP = DriveConstants.kDRIVE_P;
     m_dDriveDistanceI = DriveConstants.kDRIVE_I;
@@ -140,6 +143,7 @@ public class Drive extends SubsystemBase {
 
     m_gearShifter = new DoubleSolenoid(Common.kPCM_PORT, PneumaticsModuleType.CTREPCM, DriveConstants.kSHIFT_DOWN,
         DriveConstants.kSHIFT_UP);
+    m_currShift = m_gearShifter.get();
   }
 
   @Override
@@ -179,16 +183,22 @@ public class Drive extends SubsystemBase {
   }
 
   public void setShiftHigh() {
+    m_currShift = m_gearShifter.get();
     m_gearShifter.set(Value.kForward);
     m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
 
   }
 
   public void setShiftLow() {
+    m_currShift = m_gearShifter.get();
     m_gearShifter.set(Value.kReverse);
     m_currentEncoderDistancePerPulse = DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
   }
 
+  public void resetShiftPrev() {
+    m_gearShifter.set(m_currShift);
+  }
+  
   public boolean isHighGear() {
     return m_bInHighGear;
   }

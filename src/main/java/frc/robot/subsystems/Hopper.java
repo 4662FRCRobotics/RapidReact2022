@@ -17,11 +17,11 @@ public class Hopper extends SubsystemBase {
 
   
   public Hopper() {
-    m_beltmotor = new CANSparkMax(HopperConstants.kHOPPER_MOTOR_PORT, MotorType.kBrushless);
+    m_beltmotor = new CANSparkMax(HopperConstants.kHOPPER_MOTOR_PORT, MotorType.kBrushed);
     m_beltmotor.restoreFactoryDefaults();
     m_beltmotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     
-    m_wheelmotor = new CANSparkMax(HopperConstants.kHOPPER_MOTOR2_PORT, MotorType.kBrushless);
+    m_wheelmotor = new CANSparkMax(HopperConstants.kHOPPER_MOTOR2_PORT, MotorType.kBrushed);
     m_wheelmotor.restoreFactoryDefaults();
     m_wheelmotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
  
