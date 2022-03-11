@@ -27,18 +27,22 @@ public class Hopper extends SubsystemBase {
  
   }
 
-  public void IntakeOn() {
+  public void intakeOn() {
     m_wheelmotor.set(HopperConstants.kHOPPER_INTAKE_SPEED);
   }
+ 
+  public void intakeRev() {
+    m_wheelmotor.set(-HopperConstants.kHOPPER_INTAKE_SPEED);
+  }
 
-public void IntakeOff() {
+public void intakeOff() {
   m_wheelmotor.stopMotor();
 }
-public void ShooterFeed() {
+public void shooterFeed() {
   m_beltmotor.set(HopperConstants.kHOPPER_LAUNCH_SPEED);
   m_wheelmotor.set(HopperConstants.kHOPPER_LAUNCH_SPEED);
 }
-public void ShooterOff() {
+public void shooterOff() {
   m_beltmotor.stopMotor();
   m_wheelmotor.stopMotor();
 }
