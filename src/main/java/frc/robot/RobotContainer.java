@@ -142,6 +142,9 @@ public class RobotContainer {
                         new OverRideArcadeDrive(m_drive, Boolean.TRUE, () -> m_driveStick.getY(),
                                 () -> m_driveStick.getTwist(), () -> m_console.getX()));
 
+        new JoystickButton(m_driveStick, ButtonMappings.kLOADER_SPIT)
+                .whileHeld(new spitIntake(m_intake));
+
     }
 
     /**

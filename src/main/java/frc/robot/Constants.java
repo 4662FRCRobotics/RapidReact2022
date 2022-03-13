@@ -79,7 +79,7 @@ public final class Constants {
         public static final double kSHOOTER_MAX_VOLTS = 10;
         public static final double kSHOOTER_MIN_VOLTS = 5;
         public static final double kSHOOTER_RANGE = kSHOOTER_MAX_VOLTS - kSHOOTER_MIN_VOLTS;
-        public static final double kSHOOTER_SPEED_AUTO = .8;
+        public static final double kSHOOTER_SPEED_AUTO = .5;
         // check the Launcher Wheel Variables spreadsheet to see what these numbers do
         // low offset is for formula 1
         // public static final double kSHOOTER_LOW_OFFSET = 0.90;
@@ -99,7 +99,7 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int kBELT_MOTOR_PORT = 11;
-        public static final double kBELT_MOTOR_SPEED = -0.85; // was 3 9/26/2021
+        public static final double kBELT_MOTOR_SPEED = -0.95; // was 3 9/26/2021
         public static final int kINTAKE_DOWN = 3;
         public static final int kINTAKE_UP = 2;
     }
@@ -140,9 +140,9 @@ public final class Constants {
         public static final int kHOPPER_MOTOR2_PORT = 13;
         //public static final int kSHOOTER_SENSOR_PORT = 0
         //public static final int kINTAKE_SENSOR_PORT = 1;
-        public static final double kHOPPER_SPEED = 0.75;
-        public static final double kHOPPER_INTAKE_SPEED = 0.80;
-        public static final double kHOPPER_LAUNCH_SPEED = 0.80;
+        public static final double kHOPPER_SPEED = -0.75;
+        public static final double kHOPPER_INTAKE_SPEED = -0.80;
+        public static final double kHOPPER_LAUNCH_SPEED = -0.80;
         public static final double kHOPPER_ZERO_SPEED = 0;
         public static final double kDISTANCE_THRESHOLD = 10.0;
         

@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake;
 
 public class spitIntake extends CommandBase {
   Intake m_intake;
-  Hopper m_hopper;
+
   /** Creates a new spitIntake. */
   public spitIntake(Intake intake) {
     m_intake = intake;

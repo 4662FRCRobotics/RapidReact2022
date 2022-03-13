@@ -27,7 +27,7 @@ public class IntakeCargo extends CommandBase {
   public void initialize() {
     m_intake.ArmDown();
     m_intake.IntakeOn();
-    m_hopper.IntakeOn();
+    m_hopper.intakeOn();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +38,7 @@ public class IntakeCargo extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intake.IntakeOff();
-    m_hopper.IntakeOff();
+    m_hopper.intakeOff();
   }
 
   @Override
