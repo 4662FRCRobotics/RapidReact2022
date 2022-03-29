@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -24,10 +22,10 @@ public class Climb extends SubsystemBase {
   private SparkMaxLimitSwitch m_invFwdLimit;
   private SparkMaxLimitSwitch m_invRevLimit;
 
-  private boolean m_bIsClimbBrakeSet;
+  //private boolean m_bIsClimbBrakeSet;
 
   public Climb() {
-    m_bIsClimbBrakeSet = true;
+    //m_bIsClimbBrakeSet = true;
 
     m_ClimbMotorFwd = new CANSparkMax(ClimbConstants.kCLIMBER_FWD_PORT, MotorType.kBrushless);
     m_ClimbMotorInv = new CANSparkMax(ClimbConstants.kCLIMBER_INV_PORT, MotorType.kBrushless);

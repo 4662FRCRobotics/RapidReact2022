@@ -2,16 +2,16 @@ package frc.robot.libraries;
 
 import java.util.function.BooleanSupplier;
 
-public class Step<K> {
-    private K m_name;
+public class Step {
+    private AutoStepCommand m_name;
     private BooleanSupplier m_enabled;
 
-    public Step(K name, BooleanSupplier enabled) {
+    public Step(AutoStepCommand name, BooleanSupplier enabled) {
         m_name = name;
         m_enabled = enabled;
     }
 
-    public Step(K name) {
+    public Step(AutoStepCommand name) {
         this(name, () -> true);
     }
 
@@ -25,7 +25,7 @@ public class Step<K> {
         return this.m_enabled.getAsBoolean(); 
     }
 
-    public K getName() {
+    public AutoStepCommand getName() {
         return this.m_name;
     }
 }

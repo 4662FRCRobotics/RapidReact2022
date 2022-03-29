@@ -1,8 +1,8 @@
 package frc.robot.commands;
 
-import java.lang.module.ModuleDescriptor.Requires;
+//import java.lang.module.ModuleDescriptor.Requires;
 
-import com.fasterxml.jackson.databind.deser.std.AtomicBooleanDeserializer;
+//import com.fasterxml.jackson.databind.deser.std.AtomicBooleanDeserializer;
 
 //import static edu.wpi.first.wpilibj.DriverStation.getInstance;
 
@@ -44,13 +44,13 @@ public class AutoControl extends CommandBase {
     int m_waitCount;
 
     private Command m_launch1;
-    private Step<AutoStepCommand> m_stepLaunch1;
+    private Step m_stepLaunch1;
 
     private Command m_launch2;
-    private Step<AutoStepCommand> m_stepLaunch2;
+    private Step m_stepLaunch2;
         
     private Command m_waitLoop;
-    private Step<AutoStepCommand> m_stepWaitLoop;
+    private Step m_stepWaitLoop;
 
     private Command m_driveIntake;   
 
@@ -70,7 +70,7 @@ public class AutoControl extends CommandBase {
     };
     */
     //private Step<AutoStepCommand>[] m_step = (Step<AutoStepCommand>[]) new Step[10];
-    private Step<AutoStepCommand>[] m_step;
+    private Step[] m_step;
 
     public AutoControl(ConsoleJoystick console, Hopper hopper, Drive drive, Climb climb, Intake intake,
             Shooter shooter, Vision vision) {
@@ -88,16 +88,16 @@ public class AutoControl extends CommandBase {
         
         m_launch1 = new ParallelRaceGroup(new WaitCommand(1),
             new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO));
-        m_stepLaunch1 = new Step<AutoStepCommand>(AutoStepCommand.LAUNCH1, () -> m_console.cnsl_btn_2.get());
+        m_stepLaunch1 = new Step(AutoStepCommand.LAUNCH1, () -> m_console.cnsl_btn_2.get());
 
         m_launch2 = new ParallelRaceGroup(new WaitCommand(2),
             new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO),
             new SequentialCommandGroup(new WaitCommand(0.5), new ShootHopperFeed(m_hopper))
             );  
-        m_stepLaunch2 = new Step<AutoStepCommand>(AutoStepCommand.LAUNCH2, () -> m_console.cnsl_btn_2.get());
+        m_stepLaunch2 = new Step(AutoStepCommand.LAUNCH2, () -> m_console.cnsl_btn_2.get());
         
         m_waitLoop = new WaitForCount(1, () -> m_console.getROT_SW_1());
-        m_stepWaitLoop = new Step<AutoStepCommand>(AutoStepCommand.WAITLOOP);
+        m_stepWaitLoop = new Step(AutoStepCommand.WAITLOOP);
 
         m_driveIntake = new ParallelRaceGroup(new AutoDriveDistance(-1.5, m_drive),
             new IntakeCargo(m_hopper, m_intake));   
@@ -113,8 +113,8 @@ public class AutoControl extends CommandBase {
         m_autoStepCommand.addOption(AutoStepCommand.LAUNCH2, m_launch2);
         m_autoStepCommand.addOption(AutoStepCommand.END, new End());
 
-        m_step = (Step<AutoStepCommand>[]) new Step[] 
-            {m_stepWaitLoop, m_stepWaitLoop, m_stepLaunch1};
+        m_step = (Step[]) new Step[] 
+            {m_stepWaitLoop, m_stepLaunch1};
 
         m_stepIndex = 0;
     
