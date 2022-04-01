@@ -1,17 +1,7 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "SPARK MAX [13]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [8]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[9]": {
+      "SPARK MAX [2]": {
         "header": {
           "open": true
         }

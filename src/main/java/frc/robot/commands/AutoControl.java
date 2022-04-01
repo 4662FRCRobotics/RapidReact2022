@@ -46,6 +46,9 @@ public class AutoControl extends CommandBase {
     private Command m_launch1;
     private Step m_stepLaunch1;
 
+    private Command m_cmdDrive1;
+    private Step m_stepDrive1;
+
     private Command m_launch2;
     private Step m_stepLaunch2;
         
@@ -99,11 +102,14 @@ public class AutoControl extends CommandBase {
         m_waitLoop = new WaitForCount(1, () -> m_console.getROT_SW_1());
         m_stepWaitLoop = new Step(AutoStepCommand.WAITLOOP);
 
+        m_cmdDrive1 = new AutoDriveDistance(1.5, m_drive);
+        m_stepDrive1 = new Step(AutoStepCommand.DRIVE1, () -> m_console.cnsl_btn_3.get());
+
         m_driveIntake = new ParallelRaceGroup(new AutoDriveDistance(-1.5, m_drive),
             new IntakeCargo(m_hopper, m_intake));   
 
         m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE, new IntakeCargo(hopper, intake));
-        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1, new AutoDriveDistance(3.3, m_drive));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE1, m_cmdDrive1);
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE2, new AutoDriveDistance(1.5, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE_INTAKE, m_driveIntake);
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90, new AutoTurnAngle(90.0, m_drive));
@@ -114,7 +120,7 @@ public class AutoControl extends CommandBase {
         m_autoStepCommand.addOption(AutoStepCommand.END, new End());
 
         m_step = (Step[]) new Step[] 
-            {m_stepWaitLoop, m_stepLaunch1};
+            {m_stepWaitLoop, m_stepLaunch1, m_stepDrive1};
 
         m_stepIndex = 0;
     
