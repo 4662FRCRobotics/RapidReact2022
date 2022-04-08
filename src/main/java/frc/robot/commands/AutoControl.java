@@ -43,13 +43,13 @@ public class AutoControl extends CommandBase {
     Command m_currentCommand;
     int m_waitCount;
 
-    private Command m_launch1;
+    private Command m_cmdLaunch1;
     private Step m_stepLaunch1;
 
     private Command m_cmdDrive1;
     private Step m_stepDrive1;
 
-    private Command m_launch2;
+    private Command m_cmdLaunch2;
     private Step m_stepLaunch2;
         
     private Command m_waitLoop;
@@ -77,46 +77,52 @@ public class AutoControl extends CommandBase {
 
     public AutoControl(ConsoleJoystick console, Hopper hopper, Drive drive, Climb climb, Intake intake,
             Shooter shooter, Vision vision) {
-        m_console = console;
-        m_drive = drive;
-        m_hopper = hopper;
-        m_shooter = shooter;
-        m_intake = intake;
-        m_climb = climb;
-        m_vision = vision;
+        m_console = console; //lets us interact with the robot remotely
+        m_drive = drive; //lets us move the robot
+        m_hopper = hopper; //lets us store balls
+        m_shooter = shooter; //lets us shoot balls
+        m_intake = intake; //lets us take in balls
+        m_climb = climb; //lets us climb things
+        m_vision = vision; //lets us see things
 
         addRequirements(m_drive, m_hopper, m_shooter, m_intake, m_climb, m_vision);
 
         m_autoStepCommand = new AutonomousCommands<AutoStepCommand>();
         
-        m_launch1 = new ParallelRaceGroup(new WaitCommand(1),
+        //cmdLaunch1: assumes cargo is in shooter
+        m_cmdLaunch1 = new ParallelRaceGroup(new WaitCommand(1),
             new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO));
         m_stepLaunch1 = new Step(AutoStepCommand.LAUNCH1, () -> m_console.cnsl_btn_2.get());
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1, m_cmdLaunch1);
 
-        m_launch2 = new ParallelRaceGroup(new WaitCommand(2),
+        //cmdLaunch2: turns on shooter, waits, then turns on hopper 
+        m_cmdLaunch2 = new ParallelRaceGroup(new WaitCommand(2),
             new BaggageHandlerShoot(m_shooter, () -> ShooterConstants.kSHOOTER_SPEED_AUTO),
             new SequentialCommandGroup(new WaitCommand(0.5), new ShootHopperFeed(m_hopper))
             );  
         m_stepLaunch2 = new Step(AutoStepCommand.LAUNCH2, () -> m_console.cnsl_btn_2.get());
+        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH2, m_cmdLaunch2);
         
+        //waitLoop: waits how many seconds the right knob says
         m_waitLoop = new WaitForCount(1, () -> m_console.getROT_SW_1());
         m_stepWaitLoop = new Step(AutoStepCommand.WAITLOOP);
+        m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP, m_waitLoop);
 
-        m_cmdDrive1 = new AutoDriveDistance(1.5, m_drive);
+        //cmdDrive1: drives back before shooting
+        m_cmdDrive1 = new AutoDriveDistance(1.5, m_drive);m_autoStepCommand.addOption(AutoStepCommand.LAUNCH2, m_cmdLaunch2);
         m_stepDrive1 = new Step(AutoStepCommand.DRIVE1, () -> m_console.cnsl_btn_3.get());
-
-        m_driveIntake = new ParallelRaceGroup(new AutoDriveDistance(-1.5, m_drive),
-            new IntakeCargo(m_hopper, m_intake));   
-
-        m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE, new IntakeCargo(hopper, intake));
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE1, m_cmdDrive1);
-        m_autoStepCommand.addOption(AutoStepCommand.DRIVE2, new AutoDriveDistance(1.5, m_drive));
+
+        //driveIntake: gives ball to shooter
+        m_driveIntake = new ParallelRaceGroup(new AutoDriveDistance(-1.5, m_drive),
+        new IntakeCargo(m_hopper, m_intake));
         m_autoStepCommand.addOption(AutoStepCommand.DRIVE_INTAKE, m_driveIntake);
+
+        //
+        m_autoStepCommand.addOption(AutoStepCommand.DEPLOY_INTAKE, new IntakeCargo(hopper, intake));
+        m_autoStepCommand.addOption(AutoStepCommand.DRIVE2, new AutoDriveDistance(1.5, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.TURNP90, new AutoTurnAngle(90.0, m_drive));
         m_autoStepCommand.addOption(AutoStepCommand.WAIT2, new WaitCommand(2));
-        m_autoStepCommand.addOption(AutoStepCommand.WAITLOOP, m_waitLoop);
-        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH1, m_launch1);
-        m_autoStepCommand.addOption(AutoStepCommand.LAUNCH2, m_launch2);
         m_autoStepCommand.addOption(AutoStepCommand.END, new End());
 
         m_step = (Step[]) new Step[] 
@@ -127,7 +133,7 @@ public class AutoControl extends CommandBase {
     }
 
     private void dashboardCmd(AutoStepCommand cmdName) {
-        SmartDashboard.putString("Auto Cmd Step", cmdName.name());
+        SmartDashboard.putString("Auto Cmd Step", cmdName.name()); //displays "Auto Cmd Step" on the dashboard
     }
 
     @Override
@@ -170,23 +176,27 @@ public class AutoControl extends CommandBase {
     public boolean stepNextCommand() {
         boolean areWeThereYet = true;
 
-        m_currentStepName = getNextActiveCommand();
+        //gets next active command
+        m_currentStepName = getNextActiveCommand(); 
         if (m_currentStepName.equals(AutoStepCommand.END)) {
             areWeThereYet = true;
         } else {
             switchCommand(m_autoStepCommand.getSelected(m_currentStepName));
             areWeThereYet = false;
         }
+        //makes Donkey appear and name appear on dashboard
         dashboardCmd(m_currentStepName);
-        return areWeThereYet;
+        return areWeThereYet; 
     }
 
+    //stops current command then goes to next one
     private void switchCommand(final Command cmd) {
         m_currentCommand.end(false);
         m_currentCommand = cmd;
         m_currentCommand.initialize();
     }
 
+    //gets the next available command
     private AutoStepCommand getNextActiveCommand() {
 
         // System.out.println("getNextActiveCommand");
