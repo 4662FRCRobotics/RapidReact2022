@@ -126,7 +126,7 @@ public class AutoControl extends CommandBase {
         m_autoStepCommand.addOption(AutoStepCommand.END, new End());
 
         m_step = (Step[]) new Step[] 
-            {m_stepWaitLoop, m_stepLaunch1, m_stepDrive1};
+            {m_stepWaitLoop, m_stepLaunch2, m_stepDrive1};
 
         m_stepIndex = 0;
     
