@@ -5,22 +5,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Intake;
 
-public class ClimbDeploy extends CommandBase {
-  Climb m_climb;
-  /** Creates a new ClimbDeploy. */
-  public ClimbDeploy(Climb climb) {
-   m_climb = climb; 
-   addRequirements(m_climb);
+public class spitIntake extends CommandBase {
+  Intake m_intake;
+
+  /** Creates a new spitIntake. */
+  public spitIntake(Intake intake) {
+    m_intake = intake;
+   
+
+    addRequirements(m_intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    m_climb.climbDown();
+    m_intake.IntakeRev();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,13 +33,12 @@ public class ClimbDeploy extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climb.climbStop();
- 
+    m_intake.IntakeOff();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_climb.isClimbUp();
+    return false;
   }
 }

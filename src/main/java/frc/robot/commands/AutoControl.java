@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.libraries.AutonomousCommands;
@@ -86,7 +87,7 @@ public class AutoControl extends CommandBase {
         m_vision = vision; //lets us see things
 
         addRequirements(m_drive, m_hopper, m_shooter, m_intake, m_climb, m_vision);
-
+      
         m_autoStepCommand = new AutonomousCommands<AutoStepCommand>();
         
         //cmdLaunch1: assumes cargo is in shooter

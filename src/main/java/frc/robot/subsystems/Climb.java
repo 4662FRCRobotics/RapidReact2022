@@ -75,8 +75,13 @@ public class Climb extends SubsystemBase {
     setClimbMotor(ClimbConstants.kCLIMB_STOP);
   }
 
+  public boolean isClimbUp() {
+    return m_invRevLimit.isPressed() || m_fwdRevLimit.isPressed();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("invt limit", m_invFwdLimit.isPressed());
+    SmartDashboard.putBoolean("fwd limit", m_fwdFwdLimit.isPressed());
   }
 }
