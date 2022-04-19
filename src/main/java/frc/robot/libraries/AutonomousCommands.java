@@ -12,26 +12,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 
 /** Add your docs here. */
-public class AutonomousCommands {
+public class AutonomousCommands<K> {
 
-    private final Map<String, Command> m_autoCommand = new HashMap<>();
-    private String m_defaultChoice = "";
+    private final Map<K, Command> m_autoCommand = new HashMap<>();
+    private K m_defaultChoice;
 
 public AutonomousCommands() {}
 
-    public void setDefaultOption(String name, Command object) {
-        String setDefaultOption;
+    public void setDefaultOption(K name, Command object) {
         requireNonNullParam(name, "name", "setDefaultOption");
 
         m_defaultChoice = name;
         addOption(name, object);
     }
 
-    public void addOption(String name, Command command) {
+    public void addOption(K name, Command command) {
         m_autoCommand.put(name, command);
     }
 
-    public Command getSelected(String autoCmdName) {
+    public Command getSelected(K autoCmdName) {
         Command autoCommand = m_autoCommand.get(autoCmdName);
         boolean bIsCommandFound = autoCommand != null;
         SmartDashboard.putBoolean("Auto Found", bIsCommandFound);
@@ -40,5 +39,6 @@ public AutonomousCommands() {}
         }
         return autoCommand;
     }
+
 
 }
