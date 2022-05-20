@@ -64,6 +64,10 @@ public class RobotContainer {
                         () -> m_console.getX()));
     }
 
+    public void pathchoice(){
+        SmartDashboard.putNumber("pathChoice", m_console.getROT_SW_0());
+        SmartDashboard.putNumber("waitPeriod", m_console.getROT_SW_1());
+    }
     /**
      * Use this method to define your button->command mappings. Buttons can be
      * created by

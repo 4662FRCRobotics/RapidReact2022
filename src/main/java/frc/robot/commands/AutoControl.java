@@ -44,6 +44,8 @@ public class AutoControl extends CommandBase {
     Command m_currentCommand;
     int m_waitCount;
 
+   
+
     private Command m_cmdLaunch1;
     private Step m_stepLaunch1;
 
@@ -66,6 +68,9 @@ public class AutoControl extends CommandBase {
     private Step m_stepIntakeCargo;
 
     private Command m_cmdTurn;
+   
+    private Command  m_cmdEnd;
+    private Step m_stepEnd;
 /*
     private Command m_cmdDriveIntake;
     private Step m_stepDriveIntake;
@@ -151,7 +156,7 @@ public class AutoControl extends CommandBase {
       
         m_cmdEnd = new End();
         m_stepEnd = new Step(AutoStepCommand.END);
-        m_autoStepCommand.addOption(AutoStepCommand.END, m_cmdEnd();
+        m_autoStepCommand.addOption(AutoStepCommand.END, m_cmdEnd);
         
     }
 
@@ -162,14 +167,19 @@ public class AutoControl extends CommandBase {
     @Override
     public void initialize() {
         // getInstance();
+        m_positionSwitch = m_console.getROT_SW_0();
         if (DriverStation.isEnabled()) {
             switch (m_positionSwitch) {
                 case 0:
                     m_step = (Step[]) new Step[] { m_stepWaitLoop, m_stepLaunch1, m_stepDrive1 };
+                    System.out.println("path0"); 
                     break;
+                   
                 case 1:
                     m_step = (Step[]) new Step[] { m_stepWaitLoop, m_stepLaunch2, m_stepDrive1 };
+                    System.out.println("path1");
                     break;
+
                 case 2:
                     m_step = (Step[]) new Step[] { m_stepWaitLoop, m_stepLaunch2, m_stepDrive2 };
                     break;
