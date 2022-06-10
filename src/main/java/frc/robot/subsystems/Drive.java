@@ -15,10 +15,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 //import edu.wpi.first.wpilibj.PIDController;
 //import edu.wpi.first.wpilibj.motorcontrol.*;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -26,8 +30,11 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.Constants.Common;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.libraries.ConsoleJoystick;
 
 public class Drive extends SubsystemBase {
+  
+  private ConsoleJoystick m_console;
   private CANSparkMax m_leftController1;
   private CANSparkMax m_leftController2;
   private CANSparkMax m_rightController1;
@@ -41,10 +48,18 @@ public class Drive extends SubsystemBase {
   public PIDController m_drivePIDController;
   private double m_dDriveDistanceP;
   private double m_dDriveDistanceI;
-  private double m_turnD;
+  private double m_dDriveDistanceD; 
   private double m_turnP;
   private double m_turnI;
-  private double m_dDriveDistanceD;
+  private double m_turnD;
+
+  private final TrapezoidProfile.Constraints m_constraints;
+private static double kDt = 0.02;
+private final Encoder m_encoder = new Encoder(1, 2);
+private final ProfiledPIDController m_controller;
+private final Joystick m_joystick = new Joystick(1);
+private boolean newPidTest;
+
   private double m_dDriveDistanceTolerance;
   private double m_dDistance;
   private double m_leftEncoderSign;
@@ -61,7 +76,8 @@ public class Drive extends SubsystemBase {
   private Value m_currShift;
 
   public Drive() {
-
+   
+  SmartDashboard.getBoolean("pid test", newPidTest);
     m_leftController1 = new CANSparkMax(DriveConstants.kLeftMotor1Port, MotorType.kBrushless);
     m_leftController2 = new CANSparkMax(DriveConstants.kLeftMotor2Port, MotorType.kBrushless);
     m_rightController1 = new CANSparkMax(DriveConstants.kRightMotor1Port, MotorType.kBrushless);
@@ -117,7 +133,12 @@ public class Drive extends SubsystemBase {
       m_headingSign = -1;
     }
     m_bInHighGear = false;
-    
+  
+    m_encoder.setDistancePerPulse(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
+  m_constraints =
+      new TrapezoidProfile.Constraints(1.75, 0.75);
+  m_controller =
+      new ProfiledPIDController(1.3, 0.0, 0.7, m_constraints, kDt);
 
     m_dDriveDistanceP = DriveConstants.kDRIVE_P;
     m_dDriveDistanceI = DriveConstants.kDRIVE_I;
@@ -148,7 +169,17 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    /*if ( true){
+    if (m_joystick.getRawButtonPressed(2)) {
+      m_controller.setGoal(5);
+    
+    } else if (m_joystick.getRawButtonPressed(3)) {
+      m_controller.setGoal(0);
+         System.out.println("worked execute");
+    }
+    // Run controller and update motor output
+    m_leftController1.set(m_controller.calculate(m_encoder.getDistance()));
+  }*/
     SmartDashboard.putNumber("LeftEncdr:", getLeftDistance());
     SmartDashboard.putNumber("RightEncdr:", getRightDistance());
     SmartDashboard.putNumber("GyroYaw", getYaw());

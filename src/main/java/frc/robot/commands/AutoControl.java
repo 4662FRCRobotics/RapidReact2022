@@ -106,7 +106,7 @@ public class AutoControl extends CommandBase {
         m_shooter = shooter; // lets us shoot balls
         m_intake = intake; // lets us take in balls
         m_climb = climb; // lets us climb things
-        m_vision = vision; // lets us see things
+        m_vision = vision; // lets us see things if there was a camera
 
         addRequirements(m_drive, m_hopper, m_shooter, m_intake, m_climb, m_vision);
 
@@ -201,7 +201,7 @@ public class AutoControl extends CommandBase {
     @Override
     public void execute() {
         m_currentCommand.execute();
-        // System.out.println("execute");
+       //  System.out.println("execute");
     }
 
     @Override
