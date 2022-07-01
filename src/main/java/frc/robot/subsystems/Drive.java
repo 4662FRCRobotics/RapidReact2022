@@ -54,7 +54,6 @@ public class Drive extends SubsystemBase {
   private double m_turnD;
 
   private final TrapezoidProfile.Constraints m_constraints;
-private static double kDt = 0.02;
 private final Encoder m_encoder = new Encoder(1, 2);
 private final ProfiledPIDController m_controller;
 private final Joystick m_joystick = new Joystick(1);
@@ -135,10 +134,6 @@ private boolean newPidTest;
     m_bInHighGear = false;
   
     m_encoder.setDistancePerPulse(1.0 / 360.0 * 2.0 * Math.PI * 1.5);
-  m_constraints =
-      new TrapezoidProfile.Constraints(1.75, 0.75);
-  m_controller =
-      new ProfiledPIDController(1.3, 0.0, 0.7, m_constraints, kDt);
 
     m_dDriveDistanceP = DriveConstants.kDRIVE_P;
     m_dDriveDistanceI = DriveConstants.kDRIVE_I;
@@ -147,6 +142,11 @@ private boolean newPidTest;
     m_dDistance = getDashboardDistance();
     m_drivePIDController = new PIDController(m_dDriveDistanceP, m_dDriveDistanceI, m_dDriveDistanceD);
     m_drivePIDController.setTolerance(m_dDriveDistanceTolerance);
+
+    m_constraints =
+    new TrapezoidProfile.Constraints(1.75, 0.75);
+    m_controller =
+    new ProfiledPIDController(m_dDriveDistanceP, m_dDriveDistanceI, m_dDriveDistanceD, m_constraints);
 
     m_turnP = Constants.DriveConstants.kTURN_ANGLE_P;
     m_turnI = Constants.DriveConstants.kTURN_ANGLE_I;
@@ -169,17 +169,7 @@ private boolean newPidTest;
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    /*if ( true){
-    if (m_joystick.getRawButtonPressed(2)) {
-      m_controller.setGoal(5);
-    
-    } else if (m_joystick.getRawButtonPressed(3)) {
-      m_controller.setGoal(0);
-         System.out.println("worked execute");
-    }
-    // Run controller and update motor output
-    m_leftController1.set(m_controller.calculate(m_encoder.getDistance()));
-  }*/
+
     SmartDashboard.putNumber("LeftEncdr:", getLeftDistance());
     SmartDashboard.putNumber("RightEncdr:", getRightDistance());
     SmartDashboard.putNumber("GyroYaw", getYaw());
@@ -315,6 +305,28 @@ private boolean newPidTest;
   public boolean isDriveAtSetpoint() {
     return m_drivePIDController.atSetpoint();
   }
+
+  public void resetProfiledController() {
+    m_controller.setPID(m_dDriveDistanceP, m_dDriveDistanceI, m_dDriveDistanceD);
+    m_controller.setTolerance(m_dDriveDistanceTolerance);
+  }
+
+  /*public void initProfiledController(double distance) {
+    if (m_bInHighGear) {
+      double encoderDistance = distance / DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_HIGH;
+      m_controller.setSetpoint(encoderDistance);
+      resetEncoders();
+      m_controller.reset();
+      SmartDashboard.putNumber("EncoderDistance", encoderDistance);
+    }else{
+      double encoderDistance = distance / DriveConstants.kENCODER_DISTANCE_PER_PULSE_M_LOW;
+    m_controller.setSetpoint(encoderDistance);
+    resetEncoders();
+    m_controller.reset();
+    SmartDashboard.putNumber("EncoderDistance", encoderDistance);
+    }
+  } */
+
 
   public double getDashboardTurn() {
 
