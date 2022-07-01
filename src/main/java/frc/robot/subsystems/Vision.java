@@ -17,10 +17,10 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
+// import frc.robot.Constants.DriveConstants;
 
 public class Vision extends SubsystemBase {
-  /*
+  
   PhotonCamera camera = new PhotonCamera("fwdCamera");
   private double m_dyaw;
   private double m_dpitch;
@@ -66,7 +66,7 @@ public class Vision extends SubsystemBase {
     boolean hasTargets = result.hasTargets();
     if (hasTargets && m_sampleCount < Constants.VisionConstants.VISION_SAMPLE_COUNT) {
       PhotonTrackedTarget target = result.getBestTarget();
-      // double latencySeconds = result.getLatencyMillis() / 1000.0;
+      double latencySeconds = result.getLatencyMillis() / 1000.0;
       m_dyaw += target.getYaw();
       m_dpitch += target.getPitch();
       m_darea += target.getArea();
@@ -88,5 +88,5 @@ public class Vision extends SubsystemBase {
     return m_bhaveTarget;
   }
 
-*/
 }
+
