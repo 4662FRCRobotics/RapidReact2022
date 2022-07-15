@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Vision;
 
 public class FindHub extends CommandBase {
-  /*
+
   Vision m_vision;
   
   public FindHub(Vision vision) {
@@ -40,5 +40,5 @@ public class FindHub extends CommandBase {
   public boolean isFinished() {
     return m_vision.haveTarget();
   }
-  */
+  
 }
