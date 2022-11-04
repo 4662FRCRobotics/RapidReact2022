@@ -86,6 +86,12 @@ public class Vision extends SubsystemBase {
 
   public boolean haveTarget() {
     return m_bhaveTarget;
+
+    //add targetPose? "The pose of the target relative to the robot (x, y, rotation in degrees)""
+
+    //add inputSaveImgCmd "saves images recorded from robot vision. maybe have a botton on the joystick for this"
+  }
+  
   }
 
 */

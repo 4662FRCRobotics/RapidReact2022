@@ -105,17 +105,17 @@ public final class Constants {
     
     public static final class ButtonMappings {
 
-        // joystick buttons
+        // logitech controller buttons
         public static final int kSHOOTER = 1;
-        public static final int kLOADER = 2;
+        public static final int kLOADER = 7;
         public static final int kRETRACT_INTAKE = 3;
         public static final int kOVERRIDEGEARHIGH = 6;
-        public static final int kLOADER_SPIT = 5;
+        public static final int kLOADER_SPIT = 10;
         public static final int kOVERRIDEGEARLOW = 4;
-        public static final int kVISION_DOWN = 7;
+        public static final int kVISION_DOWN = 0;
         public static final int kVISION_ON = 8;
         public static final int kSHOOTER_ALTERNATE = 9;
-        public static final int kHARVESTER_REVERSE = 10;
+        public static final int kHARVESTER_REVERSE = 5;
 
         // console buttons
         public static final int kCLIMB_SWITCH = 1;
@@ -140,8 +140,8 @@ public final class Constants {
         //public static final int kSHOOTER_SENSOR_PORT = 0
         //public static final int kINTAKE_SENSOR_PORT = 1;
         public static final double kHOPPER_SPEED = -0.75;
-        public static final double kHOPPER_INTAKE_SPEED = -0.80;
-        public static final double kHOPPER_LAUNCH_SPEED = -0.80;
+        public static final double kHOPPER_INTAKE_SPEED = -0.85;
+        public static final double kHOPPER_LAUNCH_SPEED = -0.60;
         public static final double kHOPPER_ZERO_SPEED = 0;
         public static final double kDISTANCE_THRESHOLD = 10.0;
         

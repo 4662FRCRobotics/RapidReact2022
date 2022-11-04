@@ -183,6 +183,7 @@ private boolean newPidTest;
   }
 
   public void throttledArcadeDrive(double velocity, double heading, double throttle, double turnRate) {
+    throttle = 1;
     if (throttle < 0) {
       m_bInHighGear = true;
       velocity = velocity * ((1.0 - throttle) / 2.0);

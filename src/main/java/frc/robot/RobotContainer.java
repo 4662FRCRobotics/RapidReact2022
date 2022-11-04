@@ -22,6 +22,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.*;
+
+import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.buttons.InternalButton;
+//import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,6 +48,7 @@ public class RobotContainer {
     private final Vision m_vision = new Vision();
     private final Hopper m_hopper = new Hopper();
     private final Joystick m_driveStick = new Joystick(0);
+    private final Joystick m_gamePad = new Joystick(2);
     private final ConsoleJoystick m_console = new ConsoleJoystick(1);
 
     private final Command m_autoCommand = new AutoControl(m_console, m_hopper, m_drive, m_climb, m_intake, m_shooter,
@@ -58,11 +65,12 @@ public class RobotContainer {
         m_drive.setDefaultCommand(
                 new ArcadeDrive(
                         m_drive,
-                        () -> m_driveStick.getY(),
-                        () -> m_driveStick.getTwist(),
-                        () -> m_driveStick.getThrottle(),
+                        () -> m_gamePad.getY(),
+                        () -> m_gamePad.getZ(),
+                        () -> m_gamePad.getThrottle(),
                         () -> m_console.getX()));
     }
+
 
     public void pathchoice(){
         SmartDashboard.putNumber("pathChoice", m_console.getROT_SW_0());
@@ -92,14 +100,14 @@ public class RobotContainer {
          * new SequentialCommandGroup(new WaitCommand(1), new
          * ShootHopperFeed(m_hopper)))));
          */
-        new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER)
+        new JoystickButton(m_gamePad, ButtonMappings.kSHOOTER)
                 // new JoystickButton(m_driveStick, ButtonMappings.kSHOOTER_ALTERNATE)
                 .whileHeld(
                         new ParallelCommandGroup(
                                 new BaggageHandlerShoot(m_shooter, () -> m_console.getZ()),
                                 new SequentialCommandGroup(new WaitCommand(1), new ShootHopperFeed(m_hopper))));
 
-        new POVButton(m_driveStick, 0)
+        new POVButton(m_gamePad, 0)
                 .whileHeld(
                         new ConditionalCommand(
                                 new ClimbDeploy(m_climb),
@@ -121,11 +129,11 @@ public class RobotContainer {
          * new ClimbLift(m_climb));
          */
 
-        new POVButton(m_driveStick, 180)
+        new POVButton(m_gamePad, 180)
                 .whileHeld(
                         new ClimbLift(m_climb));
 
-        new JoystickButton(m_driveStick, ButtonMappings.kLOADER)
+        new JoystickButton(m_gamePad, ButtonMappings.kLOADER)
                 .whileHeld(
                         new IntakeCargo(m_hopper, m_intake));
 
@@ -133,20 +141,20 @@ public class RobotContainer {
                 .whenActive(new InstantCommand(m_drive::setShiftHigh, m_drive))
                 .whenInactive(new InstantCommand(m_drive::setShiftLow, m_drive));
 
-        new JoystickButton(m_driveStick, ButtonMappings.kRETRACT_INTAKE).whenPressed(
+        new JoystickButton(m_gamePad, ButtonMappings.kRETRACT_INTAKE).whenPressed(
                 new RetractIntake(m_intake));
 
-        new JoystickButton(m_driveStick, ButtonMappings.kOVERRIDEGEARLOW)
+        new JoystickButton(m_gamePad, ButtonMappings.kOVERRIDEGEARLOW)
                 .whileHeld(
-                        new OverRideArcadeDrive(m_drive, Boolean.FALSE, () -> m_driveStick.getY(),
-                                () -> m_driveStick.getTwist(), () -> m_console.getX()));
+                        new OverRideArcadeDrive(m_drive, Boolean.FALSE, () -> m_gamePad.getY(),
+                                () -> m_gamePad.getTwist(), () -> m_console.getX()));
 
-        new JoystickButton(m_driveStick, ButtonMappings.kOVERRIDEGEARHIGH)
+        new JoystickButton(m_gamePad, ButtonMappings.kOVERRIDEGEARHIGH)
                 .whileHeld(
-                        new OverRideArcadeDrive(m_drive, Boolean.TRUE, () -> m_driveStick.getY(),
-                                () -> m_driveStick.getTwist(), () -> m_console.getX()));
+                        new OverRideArcadeDrive(m_drive, Boolean.TRUE, () -> m_gamePad.getY(),
+                                () -> m_gamePad.getTwist(), () -> m_console.getX()));
 
-        new JoystickButton(m_driveStick, ButtonMappings.kLOADER_SPIT)
+        new JoystickButton(m_gamePad, ButtonMappings.kLOADER_SPIT)
                 .whileHeld(new spitIntake(m_intake));
 
     }
