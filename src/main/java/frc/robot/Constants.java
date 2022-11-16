@@ -106,12 +106,12 @@ public final class Constants {
     public static final class ButtonMappings {
 
         // logitech controller buttons
-        public static final int kSHOOTER = 1;
-        public static final int kLOADER = 7;
-        public static final int kRETRACT_INTAKE = 3;
+        public static final int kSHOOTER = 10;
+        public static final int kLOADER = 1;
+        public static final int kRETRACT_INTAKE = 4;
         public static final int kOVERRIDEGEARHIGH = 6;
-        public static final int kLOADER_SPIT = 10;
-        public static final int kOVERRIDEGEARLOW = 4;
+        public static final int kLOADER_SPIT = 7;
+        public static final int kOVERRIDEGEARLOW = 3;
         public static final int kVISION_DOWN = 0;
         public static final int kVISION_ON = 8;
         public static final int kSHOOTER_ALTERNATE = 9;

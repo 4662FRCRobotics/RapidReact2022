@@ -177,7 +177,7 @@ private boolean newPidTest;
   }
 
   public void arcadeDrive(double velocity, double heading) {
-    m_differentialdrive.arcadeDrive(velocity, -1 * heading);
+    m_differentialdrive.arcadeDrive(velocity, -0.7* heading);
     // System.out.println("velocity="+velocity);
     // System.out.println("heading="+heading);
   }
